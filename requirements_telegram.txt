@@ -1,0 +1,10 @@
+imapclient
+beautifulsoup4
+python-dotenv
+google-genai
+edge-tts
+wheel
+setuptools
+imapclient
+datetime
+python-telegram-bot
