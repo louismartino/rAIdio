@@ -1,0 +1,32 @@
+name: Envoi Radio Matinale
+
+on:
+  schedule:
+    # L'heure est en UTC. 05:30 UTC = 07:30 à Paris.
+    - cron: '30 5 * * *'
+  workflow_dispatch: # Permet de le lancer à la main sur iPhone
+
+jobs:
+  run-radio:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Recupere le code
+        uses: actions/checkout@v3
+
+      - name: Installe Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Installe les bibliotheques
+        run: |
+          pip install -r requirements_telegram.txt
+
+      - name: Lance le script
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python telegram_reader.py
