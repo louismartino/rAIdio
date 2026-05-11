@@ -2,8 +2,8 @@ name: Envoi Radio Matinale
 
 on:
   schedule:
-    # L'heure est en UTC. 05:30 UTC = 07:30 à Paris.
-    - cron: '30 5 * * *'
+    # L'heure est en UTC. 07:20 UTC = 09:20 à Paris.
+    - cron: '20 7 * * *'
   workflow_dispatch: # Permet de le lancer à la main sur iPhone
 
 jobs:
