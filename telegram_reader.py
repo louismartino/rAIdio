@@ -67,6 +67,7 @@ def create_script_with_gemini(raw_text):
     prompt = f"""
     Tu es un présentateur de podcast matinal. Voici les newsletters du jour. 
     Ton but est de transformer ce contenu en un script fluide, agréable et facile à comprendre à l'oreille.
+    Relis-toi à la fin pour être sûr que tu as respecté toutes les consignes.
 
     CONSIGNES STRICTES :
     - NE JAMAIS utiliser de symboles comme '*', '#', '_' ou des listes à puces.
@@ -78,7 +79,9 @@ def create_script_with_gemini(raw_text):
     - Annonce chaque changement en disant: "On passe maintenant à la newsletter [Nom de la newsletter]" ("On commence tout d'abord avec la newsletter [Nom de la newsletter]" pour la première).
     - Repère la pub dans les newsletter grâce aux phrases commme "en partenariat", "collaboration avec..." ou "partenaire du jour" et ne les inclue pas dans le script.
     - Dans l'ordre (s'il y a): Aktionnaire, puis la lettre du Figaro, puis the Next Big Shit (Sh*t c'est Shit), puis les titres du matin du Figaro et enfin The Economist.
-    - On ne doit pas retrouver la même information deux fois. Donc on donne toute la newsletter de la première puis les news de la deuxième qui ne sont pas dans la première et ainsi de suite.
+    - On ne doit pas retrouver la même information deux fois. Donc on donne toutes les news de la première newsletter puis les news
+    de la deuxième qui ne sont pas dans la première et ainsi de suite.
+    - Termine par "Et voilà Louis, c'est tout pour aujourd'hui. Rendez-vous demain pour de nouvelles newsletters !"
 
     CONTENU BRUT :
     {raw_text}
