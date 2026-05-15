@@ -19,7 +19,7 @@ EMAIL_PWD = os.getenv("EMAIL_PASS")
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
-gemini_model = 'gemini-2.5-flash'
+gemini_model = 'gemini-3-flash'
 client = genai.Client(api_key=GEMINI_KEY)
 
 def fetch_newsletters():
@@ -86,12 +86,21 @@ def create_script_with_gemini(raw_text):
     CONTENU BRUT :
     {raw_text}
     """
-    try:
-        response = client.models.generate_content(model=gemini_model, contents=prompt)
-        return response.text
-    except Exception as e:
-        print(f"Erreur Gemini : {e}")
-        return "Désolé, je n'ai pas pu préparer le script ce matin."
+    
+    # Tentative propre avec gestion du temps
+    for tentative in range(3):
+        try:
+            response = client.models.generate_content(model=gemini_model, contents=prompt)
+            return response.text
+        except Exception as e:
+            print(f"Tentative {tentative + 1}/3 échouée : {e}")
+            if tentative < 2:
+                print("Créneau saturé ou micro-coupure. Pause de 10 secondes avant de réessayer...")
+                time.sleep(60)
+            else:
+                print("Erreur définitive après 3 essais.")
+                
+    return "Désolé, je n'ai pas pu préparer le script ce matin."
 
 async def generate_audio(text):
     print("--- Génération de l'audio et envoi Telegram ---")
