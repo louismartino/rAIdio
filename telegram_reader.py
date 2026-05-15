@@ -19,7 +19,8 @@ EMAIL_PWD = os.getenv("EMAIL_PASS")
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
-gemini_model = 'gemini-3-flash'
+gemini_model = 'gemini-2.5-flash'
+# gemini_model = 'gemini-3-flash-preview'
 client = genai.Client(api_key=GEMINI_KEY)
 
 def fetch_newsletters():
@@ -95,7 +96,7 @@ def create_script_with_gemini(raw_text):
         except Exception as e:
             print(f"Tentative {tentative + 1}/3 échouée : {e}")
             if tentative < 2:
-                print("Créneau saturé ou micro-coupure. Pause de 10 secondes avant de réessayer...")
+                print("Créneau saturé ou micro-coupure. Pause d'une minute' avant de réessayer...")
                 time.sleep(60)
             else:
                 print("Erreur définitive après 3 essais.")
@@ -110,7 +111,6 @@ async def generate_audio(text):
     date_str = maintenant.strftime("%d_%m_%Y")
     filename = f"newsletters_{date_str}.mp3"
     
-    # Sur PythonAnywhere, utilise un chemin simple comme /home/ton-user/newsletters/
     folder = "./newsletters/" 
     if not os.path.exists(folder): os.makedirs(folder)
     file_path = os.path.join(folder, filename)
