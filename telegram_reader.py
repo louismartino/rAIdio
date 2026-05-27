@@ -82,6 +82,7 @@ def create_script_with_gemini(raw_text):
     - Dans l'ordre (s'il y a): Aktionnaire, puis la lettre du Figaro, puis the Next Big Shit (Sh*t c'est Shit), puis les titres du matin du Figaro et enfin The Economist.
     - On ne doit pas retrouver la même information deux fois. Donc on donne toutes les news de la première newsletter puis les news
     de la deuxième qui ne sont pas dans la première et ainsi de suite.
+    - De plus, pour la newsletter "les titres du matin du Figaro" ne mets que les news importantes et limite-toi à 10 pour cette newsletter.
     - Termine par "Et voilà Louis, c'est tout pour aujourd'hui. Rendez-vous demain pour de nouvelles newsletters !"
 
     CONTENU BRUT :
@@ -116,7 +117,7 @@ async def generate_audio(text):
     file_path = os.path.join(folder, filename)
 
     # Synthèse vocale
-    communicate = edge_tts.Communicate(text, "fr-FR-HenriNeural", rate="+15%")
+    communicate = edge_tts.Communicate(text, "fr-FR-DeniseNeural", rate="+15%")
     await communicate.save(file_path)
     
     # Envoi via Telegram
@@ -132,11 +133,11 @@ async def generate_audio(text):
                 chat_id=TELEGRAM_CHAT_ID,
                 audio=audio,
                 title=f"Radio Matinale du {date_str}",
-                performer="Henri l'IA",
+                performer="rAIdio",
                 thumbnail=thumbnail,
-                caption=f"Voici la rAIdio du jour !"
+                caption=f"Voici les newsletters du jour !"
             )
-        print("--- Succès ! Message envoyé sur ton iPhone. ---")
+        print("--- Succès ! Message envoyé sur Telegram. ---")
         
         # Optionnel : supprimer le fichier après envoi pour ne pas encombrer le serveur
         # os.remove(file_path)
