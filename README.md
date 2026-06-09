@@ -12,6 +12,10 @@ The web UI is deployed on [Render](https://render.com): **[https://raidio-api.on
 
 The page is public but **running the pipeline requires a private API key** (`FASTAPI_API_KEY`).
 
+<p align="center">
+  <img src="docs/screenshot-ui.png" alt="rAIdio web UI" width="400">
+</p>
+
 ---
 
 ## How it works
