@@ -1,0 +1,89 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "raidio"
+version = "0.1.0"
+description = "Automated morning newsletter radio pipeline"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+dependencies = [
+    "imapclient>=3.0.0",
+    "certifi>=2024.0.0",
+    "beautifulsoup4>=4.12.0",
+    "pydantic-settings>=2.0.0",
+    "google-genai>=1.0.0",
+    "edge-tts>=6.1.0",
+    "python-telegram-bot>=21.0",
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-mock>=3.14.0",
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+]
+
+[project.scripts]
+raidio = "src.telegram_reader:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+src = ["src", "tests", "main.py"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "SIM", # flake8-simplify
+]
+ignore = ["SIM117"]  # nested with statements are fine for resource cleanup
+
+[tool.ruff.lint.isort]
+known-first-party = ["src", "llm"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+packages = ["src"]
+plugins = ["pydantic.mypy"]
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[[tool.mypy.overrides]]
+module = [
+    "imapclient.*",
+    "edge_tts.*",
+    "google.*",
+    "google.genai.*",
+    "telegram.*",
+    "fastapi.*",
+    "starlette.*",
+    "uvicorn.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["."]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
