@@ -7,7 +7,7 @@ class GeminiProvider:
     """Google Gemini implementation."""
 
     def __init__(self, settings: Settings) -> None:
-        self._client = genai.Client(api_key=settings.llm_api_key.get_secret_value())
+        self._client = genai.Client(api_key=settings.llm_api_key.get_secret_value(), http_options={'api_version': 'v1'})
 
     def generate(self, prompt: str, settings: Settings) -> str | None:
         response = self._client.models.generate_content(
